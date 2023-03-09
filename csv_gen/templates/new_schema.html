@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Fake csv Generator
+{% endblock title %}
+
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+{% include 'header.html' %}
+
+
+    <form action="">
+    <h3 class="m-3">
+        {{ head }}
+        <a class="btn btn-success float-sm-right" href="{% url 'new_schema' %}" role="button">Submit</a>
+
+    </h3>
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 text-center offset-3">
+                    <form method="post">
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+
+{% endblock content %}

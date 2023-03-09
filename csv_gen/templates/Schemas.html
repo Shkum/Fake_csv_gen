@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Fake csv Generator
+{% endblock title %}
+
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+{% include 'header.html' %}
+
+    <h3 class="m-3">
+        Data schemas
+        <a class="btn btn-success float-sm-right" href="{% url 'new_schema' %}" role="button">New schema</a>
+    </h3>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Modified</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        {% for schema in schemas %}
+
+            <tr>
+                <th scope="row">
+                    {{ schema.id }}
+                </th>
+                <td>
+                    <a href="###">{{ schema.name }}</a>
+                </td>
+                <td>
+                    {{ schema.modified }}
+                </td>
+                <td>
+                    <a href="#" class="mr-5">Edit Scheme</a>
+                    <a href="##" class="ml-5">Delete</a>
+                </td>
+            </tr>
+
+        {% endfor %}
+    </table>
+{% endblock content %}
