@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Fake CSV Generator
+{% endblock title %}
+
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+    {% include 'header.html' %}
+    <h3 class="m-3">{{ head }}
+        <a href="#" style="font-size: 50%">
+            Edit Schema
+        </a>
+    </h3>
+
+
+
+
+
+
+    <form action="{% url 'generator' %}" method="get">
+        {% csrf_token %}
+
+
+        <table class="table table-bordered t_width_high ml-3" id="gen_table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Column name</th>
+                <th scope="col">Column type</th>
+            </tr>
+            </thead>
+            <tr>
+                <td>1</td>
+                <td>Name</td>
+                <td>Full name</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Mail</td>
+                <td>Email</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Bio</td>
+                <td>Text</td>
+            </tr>
+        </table>
+
+
+        {#        {% for schema in schemas %}#}
+        {##}
+        {#            <tr>#}
+        {#                <th scope="row">#}
+        {#                    {{ schema.id }}#}
+        {#                </th>#}
+        {#                <td>#}
+        {#                    {{ schema.name }}#}
+        {#                </td>#}
+        {#                <td>#}
+        {#                    {{ schema.modified }}#}
+        {#                </td>#}
+        {#            </tr>#}
+        {##}
+        {#        {% endfor %}#}
+
+
+        <h3 class="m-3">
+            Data sets
+
+        </h3>
+
+
+        <div class="float-sm-right mr-5">
+
+            <label for="id_quant">Rows:</label>
+
+            <input type="text" id="id_quant" name="quant" required value="500">
+
+            <input type="submit" id="btn" value="Generate">
+        </div>
+
+
+        <div id="result">
+
+        </div>
+
+    </form>
+
+    <script>
+        var res = $('#test td').get().map(function (e) {
+            return $(e).text();
+        });
+
+        $("#result").html(res.join(','))
+    </script>
+
+{% endblock content %}

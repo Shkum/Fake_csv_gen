@@ -1,0 +1,12 @@
+.t_width {
+    width:300px;
+}
+.t_width_low {
+        width:100px;
+}
+.t_width_high {
+        width:50%;
+}
+.del_color {
+    color: red;
+}

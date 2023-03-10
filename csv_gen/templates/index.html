@@ -18,7 +18,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5 text-center offset-3">
-                <form method="post">
+                <form action="" method="post">
                     {% csrf_token %}
                     {% if error %}
                         <div class="alert alert-danger">
@@ -27,12 +27,12 @@
                     {% endif %}
 
                     <label for="id_name" class="mt-5">Enter your name:</label>
-                    <input type="text" id="id_name" name="name" required class="form-control mb-5" placeholder="Username">
+                    <input type="text" id="id_name" name="name" required class="form-control mb-3" placeholder="Username">
 
                     <label for="id_pass">Enter your password:</label>
-                    <input type="password" id="id_pass" name="pass" required class="form-control mb-5" placeholder="Password">
+                    <input type="password" id="id_pass" name="pass" required class="form-control mb-2" placeholder="Password">
 
-                    <input type="submit" class="btn btn-primary" id="btn" value="Login">
+                    <input type="submit" class="btn btn-primary float-sm-right m-3" id="btn" value="Login">
 
                 </form>
 
