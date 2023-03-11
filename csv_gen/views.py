@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from datetime import datetime
 
 from django.shortcuts import render
@@ -53,7 +54,10 @@ def generator(request):
     if request.method == 'POST':
         d = {0: 'Name, Full name', 1: 'Mail, Email', 2: 'Bio, text'}
         for id_f in range(3):
-            file_name = os.path.join('csv_gen', 'media', d[id_f].split(', ')[0] + '.csv')
+            # file_name = os.path.join('csv_gen', 'media', d[id_f].split(', ')[0] + '.csv')
+
+            THIS_FOLDER = Path(__file__).parent.resolve()
+            file_name = THIS_FOLDER / 'media' / (d[id_f].split(', ')[0] + '.csv')
             with open(file_name, 'w') as file:
                 file_list[file.name] = (datetime.now().isoformat(), id_f + 1)
                 for loops in range(int(request.POST['quant'])):
