@@ -14,7 +14,7 @@
 {% block content %}
     {% include 'header.html' %}
     <h3 class="m-3">{{ head }}
-        <a href="#" style="font-size: 50%">
+        <a href="{% url 'new_schema' %}" style="font-size: 50%">
             Edit Schema
         </a>
     </h3>
@@ -24,7 +24,7 @@
 
 
 
-    <form action="{% url 'generator' %}" method="get">
+    <form action="{% url 'generator' %}" method="post">
         {% csrf_token %}
 
 
@@ -83,14 +83,47 @@
 
             <input type="text" id="id_quant" name="quant" required value="500">
 
-            <input type="submit" id="btn" value="Generate">
+            <input type="submit" class="btn btn-primary" id="btn" value="Generate">
         </div>
 
-
-        <input type="text" name="result" id="result">
-
-
     </form>
+
+    {% if files %}
+
+        <table class="table table-bordered t_width_high ml-3" id="gen_table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Created</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+
+
+
+            {% for file, date in files.items %}
+                <tr>
+                    <td>{{ date.1 }}</td>
+                    <td>{{ date.0 }}</td>
+                    <td>
+                        <p class="text-light bg-success">Ready</p>
+                    </td>
+                    <td><a href="{{ file }}" download>Download</a></td>
+                </tr>
+            {% endfor %}
+
+        </table>
+
+
+
+
+    {% endif %}
+
+
+
+
+
 
     <script>
         var res = $('#gen_table td').get().map(function (e) {

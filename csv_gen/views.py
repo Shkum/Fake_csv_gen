@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render
 from .models import User, Schema
 from django.views.generic import View
@@ -46,14 +48,21 @@ def new_schema(request):
 
 
 def generator(request):
+    file_list = {}
     if request.method == 'POST':
-        print('post', request.POST)
-    if request.method == 'GET':
-        print('get', request.GET)
+        d = {0: 'Name, Full name', 1: 'Mail, Email', 2: 'Bio, text'}
+        for id_f in range(3):
+            with open(f"csv_gen/media/{d[id_f].split(', ')[0]}.csv", 'w') as file:
+                file_list[file.name] = (datetime.now().isoformat(), id_f + 1)
+                for loops in range(int(request.POST['quant'])):
+                    print(d[id_f], file=file)
+
     context = {
         'header': 'FakeCSV Generator.',
         'page_name': 'Generate cvs file',
         'head': 'Sample Schema',
         'schemas': Schema.objects.all(),
+        'files': file_list
     }
     return render(request, 'generator.html', context)
+

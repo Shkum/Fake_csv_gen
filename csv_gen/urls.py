@@ -1,6 +1,8 @@
+import os
 
-from django.contrib import admin
-from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path
 from .views import *
 
 urlpatterns = [
@@ -9,3 +11,7 @@ urlpatterns = [
     path('generator', generator, name='generator'),
 
 ]
+
+urlpatterns += static('/csv_gen/media/', document_root=os.path.join(settings.BASE_DIR, 'csv_gen', 'media'))
+
+print(urlpatterns)
