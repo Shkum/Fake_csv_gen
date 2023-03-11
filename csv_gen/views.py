@@ -59,6 +59,7 @@ def generator(request):
                 for loops in range(int(request.POST['quant'])):
                     print(d[id_f], file=file)
 
+
     context = {
         'header': 'FakeCSV Generator.',
         'page_name': 'Generate cvs file',
