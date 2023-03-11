@@ -18,7 +18,7 @@
     {% include 'header.html' %}
 
 
-    <form action="{% url 'generator' %}" method="post">
+    <form action="{% url 'generator' %}" method="get">
         {% csrf_token %}
         <button type="submit" class="btn btn-success float-sm-right m-3">Submit</button>
 
