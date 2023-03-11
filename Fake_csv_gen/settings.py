@@ -117,4 +117,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'csv_gen', 'media')
 
+MEDIA_URL = '/media/'
+
 
