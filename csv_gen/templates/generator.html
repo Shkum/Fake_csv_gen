@@ -18,16 +18,8 @@
             Edit Schema
         </a>
     </h3>
-
-
-
-
-
-
     <form action="{% url 'generator' %}" method="post">
         {% csrf_token %}
-
-
         <table class="table table-bordered t_width_high ml-3" id="gen_table">
             <thead>
             <tr>
@@ -54,42 +46,20 @@
         </table>
 
 
-        {#        {% for schema in schemas %}#}
-        {##}
-        {#            <tr>#}
-        {#                <th scope="row">#}
-        {#                    {{ schema.id }}#}
-        {#                </th>#}
-        {#                <td>#}
-        {#                    {{ schema.name }}#}
-        {#                </td>#}
-        {#                <td>#}
-        {#                    {{ schema.modified }}#}
-        {#                </td>#}
-        {#            </tr>#}
-        {##}
-        {#        {% endfor %}#}
-
-
         <h3 class="m-3">
             Data sets
 
         </h3>
 
-
         <div class="float-sm-right mr-5">
-
             <label for="id_quant">Rows:</label>
-
             <input type="text" id="id_quant" name="quant" required value="500">
-
             <input type="submit" class="btn btn-primary" id="btn" value="Generate">
         </div>
 
     </form>
 
     {% if files %}
-
         <table class="table table-bordered t_width_high ml-3" id="gen_table">
             <thead>
             <tr>
@@ -99,8 +69,6 @@
                 <th scope="col">Action</th>
             </tr>
             </thead>
-
-
 
             {% for file, date in files.items %}
                 <tr>
@@ -114,14 +82,7 @@
             {% endfor %}
 
         </table>
-
-
-
-
     {% endif %}
-
-
-
 
 
 

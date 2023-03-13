@@ -1,10 +1,14 @@
-import os
 from pathlib import Path
 from datetime import datetime
 
+from django.http import HttpResponse
 from django.shortcuts import render
 from .models import User, Schema
 from django.views.generic import View
+
+from .forms import NewSchemaForm
+
+grac = ''
 
 
 class Index(View):
@@ -17,15 +21,16 @@ class Index(View):
         return render(request, 'index.html', context)
 
     def post(self, request):
-
         users = dict()
         for i in User.objects.all():
             users[i.name] = i.password
 
         form = request.POST
         if form.get('name') in users and form.get('pass') == users[form.get('name')]:
+            global grac
+            grac = 'Hello, ' + form.get('name')
             context = {
-                'greetings': 'Hello, ' + form.get('name'),
+                'greetings': grac,
                 'header': 'FAKE CSV:',
                 'page_name': 'Schemas',
                 'schemas': Schema.objects.all(),
@@ -39,12 +44,49 @@ class Index(View):
 
 
 def new_schema(request):
+    def querydict_to_dict(query_dict):
+        datas = {}
+        for key in query_dict.keys():
+            v = query_dict.getlist(key)
+            if len(v) == 1:
+                v = [v[0]]
+            datas[key] = v
+        return datas
 
+    if request.method == 'POST':
+        fields = ['column_name', 'type', '_from', 'to', 'order']
+        data = querydict_to_dict(request.POST)
+
+        res = ''
+        for i in range(len(data['column_name'])):
+            for field in fields:
+                res += f'{data[field][i]}{", " if field!=fields[-1] else ""}'
+            res += '\n'
+
+
+        new_sch = Schema()
+        new_sch.name = data['name'][0]
+        new_sch.modified = datetime.today().strftime('%Y-%m-%d')
+        new_sch.data = res
+        new_sch.save()
+
+        context = {
+            'header': 'FakeCSV',
+            'page_name': 'Schemas',
+            'head': 'New schema',
+            'greetings': grac,
+        }
+
+        return render(request, 'generator.html', context)
+
+
+    form = NewSchemaForm()
     context = {
         'header': 'FakeCSV',
         'page_name': 'Schemas',
-        'head': 'New schema'
-
+        'head': 'New schema',
+        'greetings': grac,
+        'form': form
     }
     return render(request, 'new_schema.html', context)
 
@@ -65,6 +107,7 @@ def generator(request):
 
     context = {
         'header': 'FakeCSV Generator.',
+        'greetings': grac,
         'page_name': 'Generate cvs file',
         'head': 'Sample Schema',
         'schemas': Schema.objects.all(),
@@ -72,3 +115,31 @@ def generator(request):
     }
     return render(request, 'generator.html', context)
 
+
+def schema_view(request, schema: str):
+    schema = Schema.objects.get(name=schema)
+    columns = ('Column name', 'Type', 'From', 'To', 'Order',)
+    rows_data = schema.data.split('\r')
+    s_data = []
+    for row in rows_data:
+        s_data.append(dict(zip(columns, row.strip().split(', '))))
+    context = {
+        'schema_data': {'Name': schema.name, 'Modified': schema.modified},
+        's_data': s_data,
+        'header': 'Schema name: ',
+        'greetings': grac,
+        'page_name': schema.name.upper(),
+
+    }
+    return render(request, 'schema_view.html', context)
+
+
+def schema_delete(request, schema: str):
+    Schema.objects.get(name=schema).delete()
+    context = {
+        'greetings': grac,
+        'header': 'FAKE CSV:',
+        'page_name': 'Schemas',
+        'schemas': Schema.objects.all(),
+    }
+    return render(request, 'schemas.html', context)

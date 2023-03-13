@@ -7,10 +7,10 @@
 
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock %}
 
 
@@ -18,7 +18,7 @@
     {% include 'header.html' %}
 
 
-    <form action="{% url 'generator' %}" method="get">
+    <form action="{% url 'new_schema' %}" method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-success float-sm-right m-3">Submit</button>
 
@@ -44,146 +44,24 @@
                     </select>
 
                     <h3 class="m-3 mt-5">Schema columns</h3>
+                    <div class="table-responsive">
+                        <table style="width:100%">
+                            <tr>
+                                {% for field in form %}
+                                    <td class="t_width">
+                                        {{ field.label|title }}
+                                        {{ field }}
+                                    </td>
 
-<div class="table-responsive">
-                    <table style="width:100%">
-                        <tr>
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str0col0">Column name</label>
-                                <input type="text" id="str0col0" name="str0col0" required class="form-control" value="Name">
-                            </td>
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str0col1">Type</label>
-                                <select class="custom-select my-1 mr-sm-2" id="str0col1" name="str0col1">
-                                    <option selected>Full name</option>
-                                    <option value="1">Integer</option>
-                                    <option value="2">Company</option>
-                                    <option value="2">Job</option>
-                                </select></td>
+                                {% endfor %}
+                                <td>
+                                    <a href="#" class="del_color" onclick="SomeDeleteRowFunction(this)">Delete</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
 
-                            <td class="t_width_low" id="str0col2">
-
-                            </td>
-
-                            <td class="t_width_low" id="str0col3">
-
-                            </td>
-
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str0col4">Order</label>
-                                <input type="text" id="str0col4" name="str0col4" required class="form-control" value="0">
-                            </td>
-                            <td>
-                                <a href="#" class="del_color" onclick="SomeDeleteRowFunction(this)">Delete</a>
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str1col0">Column name</label>
-                                <input type="text" id="str1col0" name="str1col0" required class="form-control" value="Age">
-                            </td>
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str1col1">Type</label>
-                                <select class="custom-select my-1 mr-sm-2" id="str1col1" name="str1col1">
-                                    <option value="1">Full name</option>
-                                    <option selected >Integer</option>
-                                    <option value="2">Company</option>
-                                    <option value="3">Job</option>
-                                </select>
-                            </td>
-
-                            <td class="t_width_low">
-                                <label class="my-1 mr-2" for="str1col2">From</label>
-                                <input type="text" id="str1col2" name="str1col2" required class="form-control" value="18">
-                            </td>
-
-                            <td class="t_width_low">
-                                <label class="my-1 mr-2" for="str1col3">To</label>
-                                <input type="text" id="str1col3" name="str1col3" required class="form-control" value="60">
-                            </td>
-
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str1col4">Order</label>
-                                <input type="text" id="str1col4" name="str1col4" required class="form-control" value="1">
-                            </td>
-                            <td>
-                                <a href="#" class="del_color" onclick="SomeDeleteRowFunction(this)">Delete</a>
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str2col0">Column name</label>
-                                <input type="text" id="str2col0" name="str2col0" required class="form-control" value="Company">
-                            </td>
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str2col1">Type</label>
-                                <select class="custom-select my-1 mr-sm-2" id="str2col1" name="str2col1">
-                                    <option value="2">Full name</option>
-                                    <option value="1">Integer</option>
-                                    <option selected>Company</option>
-                                    <option value="3">Job</option>
-                                </select>
-                            </td>
-
-                            <td class="t_width_low" id="str2col12">
-
-                            </td>
-
-                            <td class="t_width_low" id="str2col3">
-
-                            </td>
-
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str2col4">Order</label>
-                                <input type="text" id="str2col4" name="str2col4" required class="form-control" value="2">
-                            </td>
-                            <td>
-                                <a href="#" class="del_color" onclick="SomeDeleteRowFunction(this)">Delete</a>
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str3col0">Column name</label>
-                                <input type="text" id="str3col0" name="str3col0" required class="form-control" value="Job role">
-                            </td>
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str3col1">Type</label>
-                                <select class="custom-select my-1 mr-sm-2" id="str3col1" name="str3col1">
-                                    <option value="2">Full name</option>
-                                    <option value="1">Integer</option>
-                                    <option value="3">Company</option>
-                                    <option selected >Job</option>
-                                </select>
-                            </td>
-
-                            <td class="t_width_low" id="str3col2">
-
-                            </td>
-
-                            <td class="t_width_low" id="str3col3">
-
-                            </td>
-
-                            <td class="t_width">
-                                <label class="my-1 mr-2" for="str3col4">Order</label>
-                                <input type="text" id="str3col4" name="str3col4" required class="form-control" value="3">
-                            </td>
-                            <td>
-                                <a href="#" class="del_color" onclick="SomeDeleteRowFunction(this)">Delete</a>
-                            </td>
-                        </tr>
-
-
-                    </table>
-</div>
-
- <a class="btn btn-primary" id="insertRow" href="#">Add new row</a>
+                    <a class="btn btn-primary" id="insertRow" href="#">Add new row</a>
 
                 </div>
             </div>
@@ -196,53 +74,57 @@
     <script>
 
 
-
         window.SomeDeleteRowFunction = function SomeDeleteRowFunction(o) {
             var p = o.parentNode.parentNode;
             p.parentNode.removeChild(p);
         }
 
 
-
-
         $(function () {
 
-    // Start counting from the third row
-    var counter = 3;
+            // Start counting from the third row
+            var counter = 3;
 
-    $("#insertRow").on("click", function (event) {
-        event.preventDefault();
+            $("#insertRow").on("click", function (event) {
+                event.preventDefault();
 
-        var newRow = $("<tr>");
-        var cols = '';
+                var newRow = $("<tr>");
+                var cols = '';
 
-        // Table columns
+                // Table columns
 
-        cols += '<td><label class="my-1 mr-2" for="id_name">Column name</label><input type="text" id="id_name" name="name" required class="form-control"></td>';
-        cols += '<td class="t_width"><label class="my-1 mr-2" for="sel">Type</label><select class="custom-select my-1 mr-sm-2" id="sel" name="column_separator"><option selected>Full name</option><option value="1">Integer</option><option value="2">Company</option><option value="2">Job</option> </select></td>';
-        cols += '<td class="t_width_low"></td>';
-        cols += '<td class="t_width_low"></td>';
-        cols += '<td><label class="my-1 mr-2" for="id_name">Order</label><input type="text" id="id_name" name="name" required class="form-control"></td>';
-        cols += '<td><a href="#" class="del_color" onclick="SomeDeleteRowFunction(this)">Delete</a></td>';
+                cols += '<td><label for="id_name">Column name</label><input type="text" id="id_name" name="column_name" required class="form-control"></td>';
+                cols += '<td><label for="sel">Type</label><select class="custom-select" id="sel" name="type"><option selected>Full name</option><option value="1">Integer</option><option value="2">Company</option><option value="2">Job</option> <option value="3">Any type</option></select></td>';
+                cols += '<td><label for="id_from">From</label><input type="number" id="id_from" name="_from" required class="form-control t_width_low"></td>';
+                cols += '<td><label for="id_to">To</label><input type="number" id="id_to" name="to" required class="form-control t_width_low"></td>';
+                cols += '<td><label for="id_order">Order</label><input type="number" id="id_order" name="order" required class="form-control"></td>';
+                cols += '<td><a href="#" class="del_color" onclick="SomeDeleteRowFunction(this)">Delete</a></td>';
 
-        // Insert the columns inside a row
-        newRow.append(cols);
+                // Insert the columns inside a row
+                newRow.append(cols);
 
-        // Insert the row inside a table
-        $("table").append(newRow);
+                // Insert the row inside a table
+                $("table").append(newRow);
 
-        // Increase counter after each row insertion
-        counter++;
-    });
+                // Increase counter after each row insertion
+                counter++;
+            });
 
-    // Remove row when delete btn is clicked
-    $("table").on("click", "#deleteRow", function (event) {
-        $(this).closest("tr").remove();
-        counter -= 1
-    });
-});
+            // Remove row when delete btn is clicked
+            $("table").on("click", "#deleteRow", function (event) {
+                $(this).closest("tr").remove();
+                counter -= 1
+            });
+        });
 
 
+        document.getElementById('sel').addEventListener('change', function () {
+            if (this.value == 1) {
+                document.getElementById('id_from').visible = false;
+            } else {
+                document.getElementById('id_from').visible = true;
+            }
+        });
 
     </script>
 {% endblock content %}

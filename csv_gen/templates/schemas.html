@@ -12,12 +12,15 @@
 
 
 {% block content %}
-{% include 'header.html' %}
+    {% include 'header.html' %}
 
     <h3 class="m-3">
         Data schemas
-        <a class="btn btn-success float-sm-right" href="{% url 'new_schema'%}" role="button">New schema</a>
+        <a class="btn btn-success float-sm-right" href="{% url 'new_schema' %}" role="button">New schema</a>
+
+
     </h3>
+
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -34,14 +37,14 @@
                     {{ schema.id }}
                 </th>
                 <td>
-                    <a href="###">{{ schema.name }}</a>
+                    <a href="{% url 'schem_view'  schema.name %}">{{ schema.name }}</a>
                 </td>
                 <td>
                     {{ schema.modified }}
                 </td>
                 <td>
                     <a href="#" class="mr-5">Edit Scheme</a>
-                    <a href="##" class="ml-5">Delete</a>
+                    <a href="{% url 'schem_delete'  schema.name %}" class="ml-5">Delete</a>
                 </td>
             </tr>
 

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Schem view
+{% endblock title %}
+
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+    {% include 'header.html' %}
+    test
+{{ greetings }}
+    test
+    {% for key, val in schema_data.items %}
+        <h3>{{ key }}: {{ val }}</h3>
+    {% endfor %}
+    <table class="table-bordered">
+        <thead>
+        <tr>
+            <th scope="col" class="t_width text-center">Column name</th>
+            <th scope="col" class="t_width text-center">Type</th>
+            <th scope="col" class="t_width text-center">From</th>
+            <th scope="col" class="t_width text-center">To</th>
+            <th scope="col" class="t_width text-center">Order</th>
+        </tr>
+        </thead>
+
+        {% for row in s_data %}
+
+            <tr>
+                {% for key, val in row.items %}
+
+                    <td class="text-center">
+                        {{ val }}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+
+    </table>
+
+    <a href="javascript:history.back()" class="btn btn-success float-sm-right">Go Back</a>
+
+{% endblock content %}
