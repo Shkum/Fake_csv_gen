@@ -71,7 +71,7 @@ def new_schema(request):
             new_sch.save()
         except Exception as err:
             print(err)
-            return HttpResponse("Name already exists in Schemas DB")
+            return HttpResponse("New Schema Name already exists in Schemas DB")
 
         context = {
             'header': 'FakeCSV',
