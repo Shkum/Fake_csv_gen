@@ -4,3 +4,20 @@
 На выходных продолжу делать задание, но с AJAX разобраться скорее всего не успею, так JS знаю на уровне - найти скрип в интернете и вставить в свой проект.
 Из «Bootstrap, Bulma, UIKit, or any other similar framework for UI» Использовался только бутстрап (на повторение остальных стилей не было времени).
 Пожалуйста найдите ниже соответсвующие предварительные ссылки:
+
+https://shkum.pythonanywhere.com/
+
+test
+test
+----
+Guest
+guest
+-----
+
+https://shkum.pythonanywhere.com/admin/
+
+login: admin
+pass: admin
+
+
+https://github.com/Shkum/Fake_csv_gen
