@@ -11,7 +11,7 @@ class User(models.Model):
 class Schema(models.Model):
     name = models.TextField(max_length=50, unique=True)
     modified = models.DateField()
-    data = models.TextField(max_length=1024, null=True)
+    data = models.TextField(max_length=256, null=True)
 
     def __str__(self):
         return f'{self.name} / {self.modified} / {self.data}'

@@ -60,15 +60,18 @@ def new_schema(request):
         res = ''
         for i in range(len(data['column_name'])):
             for field in fields:
-                res += f'{data[field][i]}{", " if field!=fields[-1] else ""}'
+                res += f'{data[field][i]}{", " if field != fields[-1] else ""}'
             res += '\n'
-
 
         new_sch = Schema()
         new_sch.name = data['name'][0]
         new_sch.modified = datetime.today().strftime('%Y-%m-%d')
         new_sch.data = res
-        new_sch.save()
+        try:
+            new_sch.save()
+        except Exception as err:
+            print(err)
+            return HttpResponse("Name already exists in Schemas DB")
 
         context = {
             'header': 'FakeCSV',
@@ -78,7 +81,6 @@ def new_schema(request):
         }
 
         return render(request, 'generator.html', context)
-
 
     form = NewSchemaForm()
     context = {
