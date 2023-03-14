@@ -103,11 +103,9 @@ def generator(request):
             file_name = d[id_f].split(', ')[0] + '.csv'
             print(file_name)
 
-
             THIS_FOLDER = Path(__file__).parent.resolve()
             full_path = THIS_FOLDER / 'media' / file_name
             print(full_path)
-
 
             with open(full_path, 'w') as file:
                 file_list[file.name] = (datetime.now().isoformat(), id_f + 1)
