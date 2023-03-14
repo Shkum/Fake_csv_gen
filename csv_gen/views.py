@@ -100,9 +100,16 @@ def generator(request):
     if request.method == 'POST':
         d = {0: 'Name, Full name', 1: 'Mail, Email', 2: 'Bio, text'}
         for id_f in range(3):
-            file_name = os.path.join(settings.MEDIA_ROOT, (d[id_f].split(', ')[0] + '.csv'))
+            file_name = d[id_f].split(', ')[0] + '.csv'
             print(file_name)
-            with open(file_name, 'w') as file:
+
+
+            THIS_FOLDER = Path(__file__).parent.resolve()
+            full_path = THIS_FOLDER / 'media' / file_name
+            print(full_path)
+
+
+            with open(full_path, 'w') as file:
                 file_list[file.name] = (datetime.now().isoformat(), id_f + 1)
                 for loops in range(int(request.POST['quant'])):
                     print(d[id_f], file=file)
