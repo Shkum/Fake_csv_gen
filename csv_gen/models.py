@@ -24,7 +24,9 @@ class NewSchema(models.Model):
         ('Integer', 'Integer'),
         ('Company', 'Company'),
         ('Job', 'Job'),
-        ('Any type', 'Any type')
+        ('Car', 'Car'),
+        ('Address', 'Address')
+
     )
     column_name = models.TextField(max_length=50, unique=True)
     type = models.CharField(
@@ -35,11 +37,3 @@ class NewSchema(models.Model):
     _from = models.IntegerField()
     to = models.IntegerField()
     order = models.IntegerField()
-
-# class Csv_Schema(models.Model):
-#     name = models.TextField(max_length=50, unique=True)
-#     job = models.TextField(max_length=50)
-#     email = models.EmailField()
-#     Domain_name = models.TextField(max_length=50)
-#     Phone_number = models.TextField(max_length=16)
-#     Company_name = models.TextField(max_length=50)
