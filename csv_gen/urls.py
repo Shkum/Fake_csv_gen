@@ -11,7 +11,7 @@ urlpatterns = [
     path('generator', generator, name='generator'),
     path('schema/<str:schema>', schema_view, name='schem_view'),
     path('delete/<str:schema>', schema_delete, name='schem_delete'),
-    path('download/<str:path>/', download, name='download'),
+    path('download/<str:path>', download, name='download'),
 
 ]
 
