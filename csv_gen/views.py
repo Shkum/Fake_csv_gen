@@ -132,13 +132,11 @@ def generator(request):
         for key, val in res_dict.items():
             d[key] = f'{val[0]}, {val[1]}'
 
-        print(d)
+        THIS_FOLDER = Path(__file__).parent.resolve()
+        clean_folder(THIS_FOLDER / 'media')
 
         for id_f in d:
-
             file_name = d[id_f].split(', ')[0] + '.csv'
-            THIS_FOLDER = Path(__file__).parent.resolve()
-            clean_folder(THIS_FOLDER / 'media')
             full_path = THIS_FOLDER / 'media' / file_name
             rnd_name = ['Vasil', 'Sergiy', 'Petro', 'Ivanko', 'Dazdraperma', 'Lena']
             rnd_family = ['Shevchenko', 'Ivanenko', 'Petrenko', 'Golovach']
