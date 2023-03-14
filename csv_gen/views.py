@@ -126,7 +126,6 @@ def generator(request):
             res = i.strip().split(', ')
             res_dict[int(res[-1])] = res[:-1]
         res_dict = dict(sorted(res_dict.items()))
-
         # d = {0: 'Name, Full name', 1: 'Mail, Email', 2: 'Bio, text'}
         d = {}
         for key, val in res_dict.items():
