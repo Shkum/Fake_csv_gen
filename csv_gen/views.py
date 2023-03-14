@@ -1,4 +1,5 @@
 import os
+import shutil
 from pathlib import Path
 from datetime import datetime
 
@@ -10,12 +11,15 @@ from django.views.generic import View
 
 from .forms import NewSchemaForm
 
+from random import choice as rnd
+
 grac = ''
 
 
 class Index(View):
 
     def get(self, request):
+
         context = {
             'header': 'LOGING IN.',
             'page_name': 'Enter your credentials:',
@@ -55,6 +59,15 @@ def new_schema(request):
             datas[key] = v
         return datas
 
+    form = NewSchemaForm()
+    context = {
+        'header': 'FakeCSV',
+        'page_name': 'Schemas',
+        'head': 'New schema',
+        'greetings': grac,
+        'form': form
+    }
+
     if request.method == 'POST':
         fields = ['column_name', 'type', '_from', 'to', 'order']
         data = querydict_to_dict(request.POST)
@@ -73,44 +86,71 @@ def new_schema(request):
             new_sch.save()
         except Exception as err:
             print(err)
-            return HttpResponse("New Schema Name already exists in Schemas DB")
+            return HttpResponse('Error: <i>' + str(err) + "</i><p>Looks like new Schema Name already exists in Schemas DB or some other error risen.</p>")
 
-        context = {
-            'header': 'FakeCSV',
-            'page_name': 'Schemas',
-            'head': 'New schema',
-            'greetings': grac,
-        }
-
+        tmp = res.strip().split('\n')
+        res_dict = {}
+        for i in tmp:
+            res = i.strip().split(', ')
+            res_dict[int(res[-1])] = res[:-1]
+        res_dict = dict(sorted(res_dict.items()))
+        context['res_dict'] = res_dict
+        print(res_dict)
         return render(request, 'generator.html', context)
 
-    form = NewSchemaForm()
-    context = {
-        'header': 'FakeCSV',
-        'page_name': 'Schemas',
-        'head': 'New schema',
-        'greetings': grac,
-        'form': form
-    }
     return render(request, 'new_schema.html', context)
 
+def clean_folder(folder):
+    '''Delete all files from mentioned folder'''
+    print(folder)
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
 
 def generator(request):
     file_list = {}
     if request.method == 'POST':
-        d = {0: 'Name, Full name', 1: 'Mail, Email', 2: 'Bio, text'}
-        for id_f in range(3):
+        tmp = Schema.objects.all().values_list()
+
+        tmp = list(map(lambda x: str(x).strip(), list(tmp)[-1]))
+        tmp = tmp[-1].split('\n')
+
+        res_dict = {}
+        for i in tmp:
+            res = i.strip().split(', ')
+            res_dict[int(res[-1])] = res[:-1]
+        res_dict = dict(sorted(res_dict.items()))
+
+        # d = {0: 'Name, Full name', 1: 'Mail, Email', 2: 'Bio, text'}
+        d = {}
+        for key, val in res_dict.items():
+            d[key] = f'{val[0]}, {val[1]}'
+
+        print(d)
+
+        for id_f in d:
+
             file_name = d[id_f].split(', ')[0] + '.csv'
-            print(file_name)
-
             THIS_FOLDER = Path(__file__).parent.resolve()
+            clean_folder(THIS_FOLDER / 'media')
             full_path = THIS_FOLDER / 'media' / file_name
-            print(full_path)
-
+            rnd_name = ['Vasil', 'Sergiy', 'Petro', 'Ivanko', 'Dazdraperma', 'Lena']
+            rnd_family = ['Shevchenko', 'Ivanenko', 'Petrenko', 'Golovach']
             with open(full_path, 'w') as file:
                 file_list[file_name] = (datetime.now().isoformat(), id_f + 1)
+                print(d[id_f].strip(), file=file)
                 for loops in range(int(request.POST['quant'])):
-                    print(d[id_f], file=file)
+                    f_name = rnd(rnd_name)
+                    f_fam = rnd(rnd_family)
+                    fin_name = f'{f_fam} {f_name}'.upper() if f_fam == rnd_family[-1] and f_name == rnd_name[-1] else f'{f_fam} {f_name}'
+
+                    print(fin_name, file=file)
 
     context = {
         'header': 'FakeCSV Generator.',
@@ -118,8 +158,10 @@ def generator(request):
         'page_name': 'Generate cvs file',
         'head': 'Sample Schema',
         'schemas': Schema.objects.all(),
-        'files': file_list
+        'files': file_list,
+        'res_dict': res_dict,
     }
+
     return render(request, 'generator.html', context)
 
 
@@ -152,7 +194,6 @@ def schema_delete(request, schema: str):
     return render(request, 'schemas.html', context)
 
 
-
 def download(request, path):
     file_path = os.path.join(settings.MEDIA_ROOT, path)
     if os.path.exists(file_path):
@@ -161,4 +202,3 @@ def download(request, path):
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404
-

@@ -9,10 +9,9 @@ class NewSchemaForm(forms.ModelForm):
         widgets = {
             'column_name': forms.TextInput(attrs={'class': 'form-control'}),
             'type': forms.Select(attrs={'class': 'form-control'}),
-            '_from': forms.NumberInput(attrs={'class': 'form-control t_width_low', 'id': 'sel'}),
+            '_from': forms.NumberInput(attrs={'class': 'form-control t_width_low'}),
             'to': forms.NumberInput(attrs={'class': 'form-control t_width_low'}),
             'order': forms.NumberInput(attrs={'class': 'form-control'}),
 
         }
-
 

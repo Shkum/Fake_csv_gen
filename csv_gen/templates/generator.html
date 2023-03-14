@@ -28,21 +28,17 @@
                 <th scope="col">Column type</th>
             </tr>
             </thead>
-            <tr>
-                <td>1</td>
-                <td>Name</td>
-                <td>Full name</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Mail</td>
-                <td>Email</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Bio</td>
-                <td>Text</td>
-            </tr>
+
+
+            {% for key, val in res_dict.items %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ val.0 }}</td>
+                    <td>{{ val.1 }}</td>
+                </tr>
+
+            {% endfor %}
+
         </table>
 
 
@@ -57,9 +53,8 @@
             <input type="submit" class="btn btn-primary" id="btn" value="Generate">
         </div>
 
-    </form>
 
-    {% if files %}
+        {% if files %}
         <table class="table table-bordered t_width_high ml-3" id="gen_table">
             <thead>
             <tr>
@@ -85,6 +80,8 @@
     {% endif %}
 
 
+
+    </form>
 
     <script>
         var res = $('#gen_table td').get().map(function (e) {

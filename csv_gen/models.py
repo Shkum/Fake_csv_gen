@@ -1,8 +1,6 @@
 from django.db import models
 
 
-# Create your models here.
-
 class User(models.Model):
     name = models.TextField(max_length=50, unique=True)
     password = models.TextField(max_length=50)
@@ -34,6 +32,6 @@ class NewSchema(models.Model):
         choices=TYPE_CHOICES,
         default='Full name',
                             )
-    _from = models.IntegerField()
-    to = models.IntegerField()
+    _from = models.IntegerField(null=True, blank=True)
+    to = models.IntegerField(null=True, blank=True)
     order = models.IntegerField()
