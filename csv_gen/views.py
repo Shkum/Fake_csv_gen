@@ -1,7 +1,9 @@
+import os
 from pathlib import Path
 from datetime import datetime
 
-from django.http import HttpResponse
+from django.conf import settings
+from django.http import HttpResponse, Http404
 from django.shortcuts import render
 from .models import User, Schema
 from django.views.generic import View
@@ -98,10 +100,8 @@ def generator(request):
     if request.method == 'POST':
         d = {0: 'Name, Full name', 1: 'Mail, Email', 2: 'Bio, text'}
         for id_f in range(3):
-            # file_name = os.path.join('csv_gen', 'media', d[id_f].split(', ')[0] + '.csv')
-
-            THIS_FOLDER = Path(__file__).parent.resolve()
-            file_name = THIS_FOLDER / 'media' / (d[id_f].split(', ')[0] + '.csv')
+            file_name = os.path.join(settings.MEDIA_ROOT, (d[id_f].split(', ')[0] + '.csv'))
+            print(file_name)
             with open(file_name, 'w') as file:
                 file_list[file.name] = (datetime.now().isoformat(), id_f + 1)
                 for loops in range(int(request.POST['quant'])):
@@ -145,3 +145,15 @@ def schema_delete(request, schema: str):
         'schemas': Schema.objects.all(),
     }
     return render(request, 'schemas.html', context)
+
+
+
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
+

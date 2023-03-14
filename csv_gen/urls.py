@@ -11,7 +11,8 @@ urlpatterns = [
     path('generator', generator, name='generator'),
     path('schema/<str:schema>', schema_view, name='schem_view'),
     path('delete/<str:schema>', schema_delete, name='schem_delete'),
+    path('download/<str:path>/', download, name='download'),
 
 ]
 
-urlpatterns += static('/csv_gen/media/', document_root=os.path.join(settings.BASE_DIR, 'csv_gen', 'media'))
+# urlpatterns += static('/csv_gen/media/', document_root=os.path.join(settings.BASE_DIR, 'csv_gen', 'media'))
