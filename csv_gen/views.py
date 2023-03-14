@@ -108,7 +108,7 @@ def generator(request):
             print(full_path)
 
             with open(full_path, 'w') as file:
-                file_list[file.name] = (datetime.now().isoformat(), id_f + 1)
+                file_list[file_name] = (datetime.now().isoformat(), id_f + 1)
                 for loops in range(int(request.POST['quant'])):
                     print(d[id_f], file=file)
 
