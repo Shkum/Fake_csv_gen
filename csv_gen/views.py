@@ -168,7 +168,7 @@ def generator(request):
                 for loops in range(int(request.POST['quant'])):
                     fin_name = rnd(rnd_name)
                     fin_fam = rnd(rnd_family)
-                    f_name = f'{fin_fam} {fin_name}'.upper() if fin_fam == rnd_family[-1] and f_name == rnd_name[-1] else f'{fin_fam} {fin_name}'
+                    f_name = f'{fin_fam} {fin_name}'.upper() if fin_fam == rnd_family[-1] and fin_name == rnd_name[-1] else f'{fin_fam} {fin_name}'
                     f_car = rnd(rnd_car)
                     f_company = rnd(rnd_company)
                     f_job = rnd(rnd_job)
