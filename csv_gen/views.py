@@ -11,7 +11,7 @@ from django.views.generic import View
 
 from .forms import NewSchemaForm
 
-from random import choice as rnd
+from random import choice as rnd, randrange as rnd_range
 
 grac = ''
 
@@ -100,9 +100,10 @@ def new_schema(request):
 
     return render(request, 'new_schema.html', context)
 
+
 def clean_folder(folder):
     '''Delete all files from mentioned folder'''
-    print(folder)
+
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
         try:
@@ -112,6 +113,7 @@ def clean_folder(folder):
                 shutil.rmtree(file_path)
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
+
 
 def generator(request):
     file_list = {}
@@ -127,27 +129,71 @@ def generator(request):
             res_dict[int(res[-1])] = res[:-1]
         res_dict = dict(sorted(res_dict.items()))
         # d = {0: 'Name, Full name', 1: 'Mail, Email', 2: 'Bio, text'}
-        d = {}
+        dict_data = {}
+        from_to = []
         for key, val in res_dict.items():
-            d[key] = f'{val[0]}, {val[1]}'
+            dict_data[key] = f'{val[0]}, {val[1]}'
+            from_to.append((val[2], val[3]))
 
         THIS_FOLDER = Path(__file__).parent.resolve()
         clean_folder(THIS_FOLDER / 'media')
 
-        for id_f in d:
-            file_name = d[id_f].split(', ')[0] + '.csv'
-            full_path = THIS_FOLDER / 'media' / file_name
-            rnd_name = ['Vasil', 'Sergiy', 'Petro', 'Ivanko', 'Dazdraperma', 'Lena']
-            rnd_family = ['Shevchenko', 'Ivanenko', 'Petrenko', 'Golovach']
-            with open(full_path, 'w') as file:
-                file_list[file_name] = (datetime.now().isoformat(), id_f + 1)
-                print(d[id_f].strip(), file=file)
-                for loops in range(int(request.POST['quant'])):
-                    f_name = rnd(rnd_name)
-                    f_fam = rnd(rnd_family)
-                    fin_name = f'{f_fam} {f_name}'.upper() if f_fam == rnd_family[-1] and f_name == rnd_name[-1] else f'{f_fam} {f_name}'
+        rnd_name = ['Vasil', 'Sergiy', 'Petro', 'Ivanko', 'Dazdraperma', 'Lena']
+        rnd_family = ['Shevchenko', 'Ivanenko', 'Petrenko', 'Timoshenko', 'Golovach']
+        rnd_car = ['Audi', 'Toyota', 'Nissan', 'Honda', 'BMW', 'Mersedes']
+        rnd_company = ['Google', 'Amazon', 'Meta', 'Yahoo']
+        rnd_job = ['Programmer', 'Seamen', 'Driver', 'Manager', 'Developer']
+        rnd_address = ['Kiyv', 'Odessa', 'Harkiv', 'Kherson', 'Mikolayv', 'Lviv']
 
-                    print(fin_name, file=file)
+        file_head = []
+        file_head_type = []
+
+        for id_f in dict_data:
+            file_head.append(dict_data[id_f].strip().split(', ')[0])
+            file_head_type.append(dict_data[id_f].strip().split(', ')[1])
+
+
+        file_head_str = ', '.join(file_head)
+
+        for i in range(3):
+            # file_name = dict_data[id_f].split(', ')[0] + '.csv'
+            file_name = f'rep0{i}' + '.csv'
+            full_path = THIS_FOLDER / 'media' / file_name
+
+            with open(full_path, 'w') as file:
+                file_list[file_name] = (datetime.now().isoformat(), i + 1)
+
+                print(file_head_str, file=file)
+
+                for loops in range(int(request.POST['quant'])):
+                    fin_name = rnd(rnd_name)
+                    fin_fam = rnd(rnd_family)
+                    f_name = f'{fin_fam} {fin_name}'.upper() if fin_fam == rnd_family[-1] and f_name == rnd_name[-1] else f'{fin_fam} {fin_name}'
+                    f_car = rnd(rnd_car)
+                    f_company = rnd(rnd_company)
+                    f_job = rnd(rnd_job)
+                    f_int = 0
+                    f_address = rnd(rnd_address)
+
+
+                    dict_selection = {
+                        'Full name': f_name,
+                        'Integer': f_int,
+                        'Company': f_company,
+                        'Job': f_job,
+                        'Car': f_car,
+                        'Address': f_address,
+                    }
+
+                    final_string = []
+                    for ind, typ in enumerate(file_head_type):
+                        if str(file_head_type[ind]) == 'Integer':
+                            dict_selection['Integer'] = rnd_range(int(from_to[ind][0]), int(from_to[ind][1]))
+                        final_string.append(str(dict_selection[typ]))
+
+
+                    final_string = ', '.join(final_string)
+                    print(final_string, file=file)
 
     context = {
         'header': 'FakeCSV Generator.',
